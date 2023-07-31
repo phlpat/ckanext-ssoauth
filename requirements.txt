@@ -1,2 +1,1 @@
 python-jose==3.2.0
-python-keycloak-client==0.1.3
