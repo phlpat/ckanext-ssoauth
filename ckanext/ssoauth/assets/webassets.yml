@@ -1,0 +1,14 @@
+# ssoauth-js:
+#   filter: rjsmin
+#   output: ckanext-ssoauth/%(version)s-ssoauth.js
+#   contents:
+#     - js/ssoauth.js
+#   extra:
+#     preload:
+#       - base/main
+
+# ssoauth-css:
+#   filter: cssrewrite
+#   output: ckanext-ssoauth/%(version)s-ssoauth.css
+#   contents:
+#     - css/ssoauth.css
