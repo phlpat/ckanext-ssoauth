@@ -1,1 +1,1 @@
-python-jose==2.1.0
+python-jose==2.0.2
