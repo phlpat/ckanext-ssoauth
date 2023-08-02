@@ -22,7 +22,10 @@ def index():
 
 def getAccessToken(shortToken):
     helper = Helper()
-    base_url = "https://mmsuat.demotoday.net/login/api/Login/GetToken/"
+    # betimes
+    # base_url = "https://mmsuat.demotoday.net/login/api/Login/GetToken/"
+    # uat sso
+    base_url = "https://mmsuat.sso.go.th/login/api/Login/GetToken/"
     endpoint = base_url + str(shortToken)
 
     try:
