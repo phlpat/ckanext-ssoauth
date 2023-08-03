@@ -25,7 +25,7 @@ def getAccessToken(shortToken):
     # betimes
     # base_url = "https://mmsuat.demotoday.net/login/api/Login/GetToken/"
     # uat sso
-    base_url = "https://mmsuat.sso.go.th/login/api/Login/GetToken/"
+    base_url = "http://172.20.80.142:8085/api/Login/GetToken/"
     endpoint = base_url + str(shortToken)
 
     try:
