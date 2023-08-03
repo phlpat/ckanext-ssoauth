@@ -30,10 +30,11 @@ def getAccessToken(shortToken):
 
     try:
         response = requests.get(endpoint)
+        print(response)
         if response.status_code == 200:
             access_token = response.json().get("accessToken")
             userData = decode_jwt_to_json(access_token)
-
+            
             userName = userData["preferred_username"]
             firstName = userData["given_name"]
             lastName = userData["family_name"]
@@ -51,6 +52,8 @@ def getAccessToken(shortToken):
             session['fullname'] = data_dict['fullname']
             session['email'] = data_dict['email']
             session['password'] = "12345678"
+
+            print(data_dict)
 
             g.userobj = model.User.by_name(session['name'])
             relay_state = request.form.get('RelayState')
