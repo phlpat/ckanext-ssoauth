@@ -68,17 +68,17 @@ def index(shortToken):
     # return 'hello'
 
 def getAccessToken(shortToken):
-    print("get access token")
+    log.info("get access token")
     helper = Helper()
     # betimes
     # base_url = "https://mmsuat.demotoday.net/login/api/Login/GetToken/"
     # uat sso
     base_url = "http://172.20.80.142:8085/api/Login/GetToken/"
     endpoint = base_url + str(shortToken)
-    print(endpoint)
+    log.info(endpoint)
     try:
         response = requests.get(endpoint)
-        print(response)
+        log.info(response)
         if response.status_code == 200:
             access_token = response.json().get("accessToken")
             userData = decode_jwt_to_json(access_token)
@@ -101,7 +101,7 @@ def getAccessToken(shortToken):
             session['email'] = data_dict['email']
             session['password'] = "12345678"
 
-            print(data_dict)
+            log.info(data_dict)
 
             g.userobj = model.User.by_name(session['name'])
             relay_state = request.form.get('RelayState')
