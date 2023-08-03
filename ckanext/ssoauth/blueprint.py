@@ -17,8 +17,55 @@ log = logging.getLogger(__name__)
 
 ssoauth = Blueprint(u'open-login', __name__)
 
-def index():
-    return 'hello'
+def index(shortToken):
+    helper = Helper()
+    base_url = "http://172.20.80.142:8085/api/Login/GetToken/"
+    endpoint = base_url + str(shortToken)
+    print(endpoint)
+    try:
+        response = requests.get(endpoint)
+        print(response)
+        if response.status_code == 200:
+            access_token = response.json().get("accessToken")
+            userData = decode_jwt_to_json(access_token)
+            
+            userName = userData["preferred_username"]
+            firstName = userData["given_name"]
+            lastName = userData["family_name"]
+            email = userData["email"]
+
+            user = helper.identify(email, userName, firstName, lastName)
+            if not user:
+                helper.create_user(email, userName, firstName, lastName)
+                
+            userValid = helper.get_user(userName)
+            data_dict = json.loads(userValid)
+            test = data_dict["name"]
+
+            session['name'] = data_dict['name']
+            session['fullname'] = data_dict['fullname']
+            session['email'] = data_dict['email']
+            session['password'] = "12345678"
+
+            print(data_dict)
+
+            # g.userobj = model.User.by_name(session['name'])
+            # relay_state = request.form.get('RelayState')
+            # redirect_target = toolkit.url_for(
+            #     str(relay_state), _external=True) if relay_state else u'user.me'
+
+            # resp = toolkit.redirect_to(redirect_target)
+            # set_repoze_user(session['name'], resp)
+            return data_dict['fullname']
+        else:
+            print("Failed to get access token.")
+    except requests.exceptions.RequestException as e:
+        pass
+
+    # If something goes wrong, return an error response
+    return jsonify({"error": "Failed to get access token."}), 500
+
+    # return 'hello'
 
 def getAccessToken(shortToken):
     print("get access token")
@@ -83,5 +130,5 @@ def decode_jwt_to_json(jwt_token):
     return None
 
 
-ssoauth.add_url_rule('/open-login', view_func=index)
+ssoauth.add_url_rule('/open-login/<shortToken>', view_func=index)
 ssoauth.add_url_rule('/open-login/token/<shortToken>', view_func=getAccessToken, methods=['GET'])
