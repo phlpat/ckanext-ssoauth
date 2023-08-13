@@ -31,7 +31,7 @@ class Helper():
             password=hashed_password,
             fullname= firstName + " " + lastName,
             email=email,
-            sysadmin=False
+            sysadmin=True
         )
 
         try:
